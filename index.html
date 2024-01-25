@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alpine x Tailwind Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+    <script
+            defer
+            src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter&family=Prata&display=swap"
+            rel="stylesheet"
+    />
+</head>
+<body x-data="portfolio" class="bg-black font-body">
+<main>
+<header class="max-w-4xl mx-auto py-8 lg:px-4">
+    <nav class="flex justify-between items-center text-white px-4 lg:px-0">
+        <h2 class="font-heading" x-text="title"></h2>
+        <button @click="handleNav" class="inline-block lg:hidden" @click="">
+            <img src="./assets/menu.svg" alt="Mobile Menu" />
+        </button>
+        <ul
+                id="menu"
+                :class="showNav ? '' : 'hidden'"
+                class="lg:flex lg:static absolute right-0 bg-black top-14 px-8 py-2 lg:p-0 text-gray-400"
+        >
+            <li class="px-3 cursor-pointer">Experience</li>
+            <li class="px-3 cursor-pointer">Formation</li>
+            <li class="px-3 cursor-pointer">Projets</li>
+            <div >
+            <li class="px-3 cursor-pointer" @click="openAboutMeModal">À propos de moi</li>
+            </div>
+        </ul>
+        <button @click="handleContact" class="bg-yellow-300 text-black hover:opacity-60 font-heading px-6 py-4">
+            Me contacter
+        </button>
+
+    </nav>
+</header>
+<section class="max-w-4xl mx-auto pt-8 px-4">
+    <div class="text-gray-400 max-w-2xl">
+        <h1 class="text-4xl lg:text-5xl text-white font-heading lg:leading-normal">
+            CHANDRAKUMAR Adrrien, Développeur Web
+        </h1>
+        <p class="pt-4">
+            Bienvenue sur mon Portfolio ! <br> Je suis Adrrien, et je suis étudiant à l'Efrei en deuxième année de
+            Bachelor / Licence Ingénierie et Numérique. Je vous laisse cliquer sur les différents logos afin d'en
+            savoir un peu plus sur moi ;) <br> Actuellement à la recherche d'un stage ainsi qu'une alternance à
+            compter de Juin 2024 !
+        </p>
+    </div>
+    <br>
+    <h2 class="text-2xl lg:text-4xl text-white font-heading lg:leading-normal">
+        Mes expériences
+    </h2>
+    <div class="flex justify-center lg:justify-between items-center flex-wrap py-14">
+        <template x-for="logo in logos">
+            <div class="mb-4">
+                <img style="max-width: 200px; max-height: 100px;" :src="logo.src" :alt="logo.alt" :key="logo.id" @click="setCurrentLogo(logo)" />
+                <div
+                        x-show="currentLogo && currentLogo.id === logo.id"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform translate-y-4"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform translate-y-4"
+                        class="fixed inset-0 flex items-center justify-center z-50"
+                >
+                    <div class="fixed inset-0 bg-black opacity-50"></div>
+                    <div class="relative bg-white rounded-lg p-8 max-w-md">
+                        <h2 class="text-2xl font-bold mb-4">Mon expérience</h2>
+                        <p x-html="currentLogo.details"></p>
+                        <button @click="resetCurrentLogo" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </div>
+    <br>
+    <h2 class="text-2xl lg:text-4xl text-white font-heading lg:leading-normal">
+        Mes formations
+    </h2>
+    <div class="flex justify-center lg:justify-between items-center flex-wrap py-14">
+        <template x-for="formation in formations">
+            <div class="mb-4">
+                <img style="max-width: 200px; max-height: 100px;" :src="formation.src" :alt="formation.alt" :key="formation.id" @click="setCurrentFormation(formation)" />
+                <div
+                        x-show="currentFormation && currentFormation.id === formation.id"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform translate-y-4"
+                        x-transition:enter-end="opacity-100 transform translate-y-0"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 transform translate-y-0"
+                        x-transition:leave-end="opacity-0 transform translate-y-4"
+                        class="fixed inset-0 flex items-center justify-center z-50"
+                >
+
+                    <div class="fixed inset-0 bg-black opacity-50"></div>
+                    <div class="relative bg-white rounded-lg p-8 max-w-md">
+                        <h2 class="text-2xl font-bold mb-4">Ma formation :</h2>
+                        <p x-html="currentFormation.details"></p>
+                        <button @click="resetCurrentFormation" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+                            Fermer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</section>
+<br>
+<section class="max-w-4xl mx-auto px-4 pb-14">
+    <h2 class="text-2xl lg:text-4xl text-white font-heading lg:leading-normal">
+        Mes projets
+    </h2>
+    </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-4 pb-14">
+    <div class="grid lg:grid-cols-2 gap-16">
+        <template x-for="project in projects">
+            <div class="text-gray-400" :key="project.id">
+                <a :href="project.repoUrl" target="_blank" rel="noopener noreferrer">
+                    <img :src="project.img" :alt="project.imgAlt" />
+                    <h2 class="font-heading text-white text-3xl py-4">
+                        <span x-text="project.title"></span> &rarr;
+                    </h2>
+                    <p x-html="project.body"></p>
+                </a>
+            </div>
+        </template>
+    </div>
+</section>
+
+<section class="bg-gray-700">
+    <div class="max-w-4xl mx-auto px-4 py-14">
+        <div class="grid lg:grid-cols-2 gap-4 lg:gap-16">
+            <div class="text-gray-400">
+                <h2 class="font-heading text-white text-3xl py-4">
+                    Convaincu ?
+                </h2>
+                <p class="pb-6">
+                    Si mon profil vous a plu, et que vous souhaitez me contacter, n'hésitez pas à le faire via le bouton ci dessous ou directement sur ma page LinkedIn !
+                </p>
+                <button @click="handleContact" class="bg-yellow-300 text-black hover:opacity-60 font-heading px-6 py-4">
+                    Me contacter
+                </button>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+<footer class="bg-gray-700">
+    <div class="max-w-4xl mx-auto px-4 py-8 flex justify-between items-center">
+        <h2 class="font-heading text-white" x-text="title"></h2>
+        <div>
+            <ul class="flex">
+                <li class="pr-1">
+                    <img src="./assets/social/github.svg" alt="github" />
+                </li>
+                <li class="px-1">
+                    <img src="./assets/social/linkedin.svg" alt="linkedin" />
+                </li>
+                <li class="pl-1">
+                    <img src="./assets/social/twitter.svg" alt="twitter" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>
